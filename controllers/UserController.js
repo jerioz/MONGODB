@@ -8,6 +8,9 @@ const UserController = {
         try {
          const password = bcrypt.hashSync(req.body.password, 10) 
          const user = await User.create({...req.body, password: password})
+        //  if(!req.body.name || !req.body.email || !req.body.password || !req.body.age) {
+        //   return res.send({message: 'Rellene todos los campos'})
+        //  }
          res.status(201).send({ message: 'user created', user}) 
         } catch (error) {
           console.error(error) 
@@ -46,7 +49,18 @@ const UserController = {
           res.status(500).send({message: 'There is a problem with logout'}) 
         }
     },
-    
+    async getUsersLogin(req, res) {
+      try {
+        const usersLogin = req.user._id
+        const users = await User.find(usersLogin)
+        if(!users) {
+          return res.status(404).send({message: 'usuario no encontrado'})
+        }
+        res.send(users)
+      } catch (error) {
+        console.error(error)
+      }
+    }
 }
 
 module.exports = UserController

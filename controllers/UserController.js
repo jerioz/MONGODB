@@ -21,11 +21,11 @@ const UserController = {
             // password: req.body.password
         })
         if(!user) {
-          return res.status(400).send({message: 'user or password incorrect'})
+          return res.status(400).send({message: 'email or password incorrect'})
         }
         const isMatch = bcrypt.compareSync(req.body.password, user.password )
         if(!isMatch) {
-          return res.status(400).send({message: 'user or password incorrect'})
+          return res.status(400).send({message: 'email or password incorrect'})
         }
         const token = jwt.sign({_id: user._id, password: user.password}, jwt_secret) 
         if(user.tokens.legth > 4) user.tokens.shift()
@@ -45,7 +45,8 @@ const UserController = {
         } catch (error) {
           res.status(500).send({message: 'There is a problem with logout'}) 
         }
-    }
+    },
+    
 }
 
 module.exports = UserController

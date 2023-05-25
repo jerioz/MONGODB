@@ -1,6 +1,7 @@
 const Post = require('../models/Post')
 
 
+
 const PostController =  {
     async newPost(req, res) {
         try {
@@ -55,6 +56,18 @@ const PostController =  {
            res.send(posts) 
         } catch (error) {
            console.error(error) 
+        }
+    },
+    async newCommentPost(req, res) {
+        try {
+            const comment = req.body
+            const post = await Post.findById(req.params._id)
+            post.comments.push(comment)
+            await post.save()
+            res.send('comment added')
+        } catch (error) {
+          console.error(error)  
+          res.send({message: 'There is a problem'})
         }
     }
 }

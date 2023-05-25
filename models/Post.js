@@ -3,11 +3,15 @@ const ObjectId = mongoose.SchemaTypes.ObjectId;
 
 const PostSchema = new mongoose.Schema ({
     title: String,
-    body: String,
+    content: String,
     userId: {
         type: ObjectId,
         ref: 'User'
-    }
+    },
+    comments: [
+       { username: String,
+         content: String }
+        ]
     
 }, { timestamps: true})
 

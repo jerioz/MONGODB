@@ -49,14 +49,14 @@ const UserController = {
           res.status(500).send({message: 'There is a problem with logout'}) 
         }
     },
-    async getUsersLogin(req, res) {
+    async getUserLogin(req, res) {
       try {
-        const usersLogin = req.user._id
-        const users = await User.find(usersLogin)
-        if(!users) {
-          return res.status(404).send({message: 'usuario no encontrado'})
+        const userLogin = req.user._id
+        const user = await User.find(userLogin)
+        if(!user) {
+          return res.status(404).send({message: 'user not found'})
         }
-        res.send(users)
+        res.send(user)
       } catch (error) {
         console.error(error)
       }

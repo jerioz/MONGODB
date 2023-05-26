@@ -9,8 +9,8 @@ const PostSchema = new mongoose.Schema ({
         ref: 'User'
     },
     comments: [
-       { username: String,
-         content: String }
+       { userId: {type: ObjectId, ref: 'User'},
+         comment: String }
         ]
     
 }, { timestamps: true})

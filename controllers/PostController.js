@@ -93,17 +93,28 @@ const PostController =  {
            res.status(500).send({message: 'There is a problem with your delete like'})
         }
     },
-    async updateCommentPost(req, res) {
-        try {
-            const post = await Post.findByIdAndUpdate(req.params._id,
-                { $push: {comments: {comment: req.body.comment, userId: req.user._id}}},
-                {new:true})
-                res.send(post)
-            }catch {
-                console.error(error)  
-                res.send({message: 'There is a problem'})
-            }
-        },
+    // async updateCommentPost(req, res) {
+    //     try {
+    //         const post = await Post.updateOne({"comments._id":req.params._id},
+    //             { $set: {comments: {"comment":req.body.comment}}},
+    //             {new:true})
+    //             res.send(post)
+    //         }catch {
+    //             console.error(error)  
+    //             res.send({message: 'There is a problem'})
+    //         }
+    //     },
+        // async deleteCommentPost(req, res) {
+        //     try {
+        //         const post = await Post.updateOne({"comments._id":req.params._id},
+        //             { $pull: {comments: "comment"}},
+        //             {new:true})
+        //             res.send(post)
+        //         }catch {
+        //             console.error(error)  
+        //             res.send({message: 'There is a problem'})
+        //         }
+        //     },
 
 }  
 

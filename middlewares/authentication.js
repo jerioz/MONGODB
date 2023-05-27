@@ -2,6 +2,7 @@ const User = require('../models/User')
 const jwt = require('jsonwebtoken')
 const { jwt_secret } = require('../config/keys')
 const Post = require('../models/Post')
+const Comment = require('../models/Comment')
 
 
 const authentication = async(req, res, next) => {
@@ -32,9 +33,10 @@ const isAuthor = async(req, res, next) => {
       return res.status(500).send({ error, message: 'There is a problem' })
   }
 }
+
 const isAuthorComment = async(req, res, next) => {
   try {
-      const comment = await Post.findOne({'comments._id':req.params._id});
+      const comment = await Comment.findById(req.params._id);
       if (comment.userId.toString() !== req.user._id.toString()) {
           return res.status(403).send({ message: 'this comment is not yours' });
       }
@@ -44,6 +46,7 @@ const isAuthorComment = async(req, res, next) => {
       return res.status(500).send({ error, message: 'There is a problem' })
   }
 }
+
 
  
 

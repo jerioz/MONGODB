@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const ObjectId = mongoose.SchemaTypes.ObjectId;
 
-const PostSchema = new mongoose.Schema ({
+const PostSchema = new mongoose.Schema({
     title: String,
     content: String,
     userId: {
@@ -9,11 +9,14 @@ const PostSchema = new mongoose.Schema ({
         ref: 'User'
     },
     comments: [
-       { userId: {type: ObjectId, ref: 'User'},
-         comment: String }
-        ]
-    
-}, { timestamps: true})
+        {
+            comment: String,
+            userId: { type: ObjectId, ref: 'User' },
+        }
+    ],
+    likes: [{ type: ObjectId }]
+
+}, { timestamps: true })
 
 PostSchema.index({
     title: "text",

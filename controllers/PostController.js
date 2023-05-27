@@ -71,8 +71,41 @@ const PostController =  {
                 res.send({message: 'There is a problem'})
             }
         },
-        
-    }
+    async like(req, res) {
+        try {
+            const post = await Post.findByIdAndUpdate(req.params._id,
+                {$push: {likes: req.user._id}},
+                {new:true})
+                res.send(post)  
+        } catch (error) {
+          console.error(error) 
+          res.status(500).send({message: 'There is a probklem with your like'})
+        }
+    },
+    async deletelike(req, res) {
+        try {
+            const post = await Post.findByIdAndUpdate(req.params._id,
+                {$pull: {likes: req.user._id}},
+                {new:true})
+                res.send(post)
+        } catch (error) {
+           console.error(error) 
+           res.status(500).send({message: 'There is a problem with your delete like'})
+        }
+    },
+    async updateCommentPost(req, res) {
+        try {
+            const post = await Post.findByIdAndUpdate(req.params._id,
+                { $push: {comments: {comment: req.body.comment, userId: req.user._id}}},
+                {new:true})
+                res.send(post)
+            }catch {
+                console.error(error)  
+                res.send({message: 'There is a problem'})
+            }
+        },
+
+}  
 
 
 module.exports = PostController

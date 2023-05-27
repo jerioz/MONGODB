@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const ObjectId = mongoose.SchemaTypes.ObjectId;
 
 const UserSchema = new mongoose.Schema({
     name: {
@@ -20,7 +21,8 @@ const UserSchema = new mongoose.Schema({
         type: Number,
         required: [true, 'age is required']
     },
-    tokens: []
+    tokens: [],
+    
 }, { timestamps: true });
 
 UserSchema.methods.toJSON = function(){

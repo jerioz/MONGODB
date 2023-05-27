@@ -32,10 +32,22 @@ const isAuthor = async(req, res, next) => {
       return res.status(500).send({ error, message: 'There is a problem' })
   }
 }
+const isAuthorComment = async(req, res, next) => {
+  try {
+      const comment = await Post.findOne({'comments._id':req.params._id});
+      if (comment.userId.toString() !== req.user._id.toString()) {
+          return res.status(403).send({ message: 'this comment is not yours' });
+      }
+      next();
+  } catch (error) {
+      console.error(error)
+      return res.status(500).send({ error, message: 'There is a problem' })
+  }
+}
 
  
 
 
 
 
-module.exports = {authentication, isAuthor}
+module.exports = {authentication, isAuthor, isAuthorComment}

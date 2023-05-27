@@ -12,4 +12,6 @@ router.get('/getById/:_id', PostController.getPostById)
 router.get('/getAll', PostController.getAll)
 router.put('/newCommentPost/:_id', authentication, PostController.newCommentPost)
 
+
+
 module.exports = router

@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken')
 const { jwt_secret } = require('../config/keys')
 const Post = require('../models/Post')
 
+
 const authentication = async(req, res, next) => {
     try {
       const token = req.headers.authorization
@@ -31,6 +32,10 @@ const isAuthor = async(req, res, next) => {
       return res.status(500).send({ error, message: 'There is a problem' })
   }
 }
+
+ 
+
+
 
 
 module.exports = {authentication, isAuthor}

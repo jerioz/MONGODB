@@ -4,18 +4,15 @@ const { jwt_secret } = require('../config/keys')
 const bcrypt = require('bcryptjs')
 
 const UserController = {
-    async newUser(req, res) {
+    async newUser(req, res, next) {
         try {
-         const password = bcrypt.hashSync(req.body.password, 10) 
-         const user = await User.create({...req.body, password: password})
-        //  if(!req.body.name || !req.body.email || !req.body.password || !req.body.age) {
-        //   return res.send({message: 'Rellene todos los campos'})
-        //  }
+          req.body['password'] = req.body?.password ? bcrypt.hashSync(req.body.password, 10)  : null
+         const user = await User.create(req.body)
          res.status(201).send({ message: 'user created', user}) 
         } catch (error) {
-          console.error(error) 
-          res.status(500).send({message: 'user not created'})
-        }
+          error.origin = 'user'
+          next(error)
+         }
     },
     async login(req, res) {
        try {

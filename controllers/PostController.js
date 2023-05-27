@@ -1,7 +1,6 @@
 const Post = require('../models/Post')
 
 
-
 const PostController =  {
     async newPost(req, res) {
         try {
@@ -71,7 +70,8 @@ const PostController =  {
                 console.error(error)  
                 res.send({message: 'There is a problem'})
             }
-        }
+        },
+        
     }
 
 

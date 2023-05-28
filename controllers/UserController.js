@@ -57,6 +57,26 @@ const UserController = {
       } catch (error) {
         console.error(error)
       }
+    },
+    async getUserByName(req, res) {
+      try {
+        const user = await User.find({
+          $text: {
+            $search: req.params.name
+          }
+        })
+        res.send(user)
+      } catch (error) {
+        console.error(error)       
+      }
+    },
+    async getUserById(req, res) {
+      try {
+        const user = await User.findById(req.params._id)
+        res.send(user)
+      } catch (error) {
+       console.error(error) 
+      }
     }
 }
 

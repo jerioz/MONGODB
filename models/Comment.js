@@ -10,7 +10,8 @@ const CommentSchema =  new mongoose.Schema({
     userId: {
         type: ObjectId,
         ref: 'User'
-    }
+    },
+    likes: [{type: ObjectId}],
 }, {timestamps: true})
 
 const Comment = mongoose.model('Comment', CommentSchema)

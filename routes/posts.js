@@ -12,7 +12,7 @@ router.get('/getById/:_id', PostController.getPostById)
 router.get('/getAll', PostController.getAll)
 router.put('/newCommentPost/:_id', authentication, PostController.newCommentPost)
 router.put('/like/:_id', authentication, PostController.like)
-router.delete('/deleteLike/:_id', authentication, PostController.deletelike)
+router.delete('/deleteLike/:_id', authentication, isAuthor, PostController.deletelike)
 // router.put('/updateCommentPost/:_id', authentication, isAuthorComment, PostController.updateCommentPost)
 // router.delete('/deleteCommentPost/:_id', authentication, isAuthorComment, PostController.deleteCommentPost)
 

@@ -2,13 +2,24 @@ const User = require('../models/User')
 const jwt = require('jsonwebtoken')
 const { jwt_secret } = require('../config/keys')
 const bcrypt = require('bcryptjs')
+const transporter = require('../config/nodemailer')
 
 const UserController = {
     async newUser(req, res, next) {
         try {
           req.body['password'] = req.body?.password ? bcrypt.hashSync(req.body.password, 10)  : null
-         const user = await User.create(req.body)
-         res.status(201).send({ message: 'user created', user}) 
+         const user = await User.create({...req.body, confirmed:false})
+         const emailToken = jwt.sign({email:req.body.email},jwt_secret,{expiresIn:'48h'})
+         const url = 'http://localhost:3000/users/confirm/'+ emailToken
+         transporter.sendMail({
+            to: req.body.email,
+            subjet: 'confirm your register',
+            html: `<h3>Welcome, We have sent an email to confirm the registration </h3>
+            <a href="${url}"> Click here to confirm your registration </a>
+            `,
+      
+          })
+         res.status(201).send({ message: '"We have sent an email to confirm the registration"', user}) 
         } catch (error) {
           error.origin = 'user'
           next(error)
@@ -22,6 +33,9 @@ const UserController = {
         })
         if(!user) {
           return res.status(400).send({message: 'email or password incorrect'})
+        }
+        if(!user.confirmed) {
+          return res.status(400).send({ message: 'you must confirm your email'})
         }
         const isMatch = bcrypt.compareSync(req.body.password, user.password )
         if(!isMatch) {
@@ -87,6 +101,17 @@ const UserController = {
         res.send({message: 'There is a problem'}, error)  
       }
   },
+  async confirm(req,res){
+    try {
+      const token = req.params.emailToken
+    const payload = jwt.verify(token, jwt_secret)
+      await User.findOne({email: payload.email}, {confirmed:true})
+      res.status(201).send( "user confirmed successfully" );
+    } catch (error) {
+      console.error(error)
+    }
+  },
+
     
 }
 

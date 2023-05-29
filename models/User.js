@@ -22,6 +22,7 @@ const UserSchema = new mongoose.Schema({
         required: [true, 'age is required']
     },
     image: String,
+    confirmed: Boolean,
     tokens: [],
   
     

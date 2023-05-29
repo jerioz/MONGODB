@@ -8,6 +8,10 @@ const PostSchema = new mongoose.Schema({
         type: ObjectId,
         ref: 'User'
     },
+    commentId: {
+        type: ObjectId,
+        ref: 'Comment'
+    },
     comments: [
         {
             comment: String,

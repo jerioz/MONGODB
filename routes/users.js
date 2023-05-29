@@ -12,6 +12,6 @@ router.delete('/logout', authentication, UserController.logout)
 router.get('/getUserLogin', authentication, UserController.getUserLogin)
 router.get('/getUserByName/:name', UserController.getUserByName)
 router.get('/getUserById/:_id', UserController.getUserById)
-router.put('/updateUser/:_id', authentication, upload.single('image'), UserController.updateUserImg)
+router.put('/updateUserid/:_id', authentication, upload.single('image'), UserController.updateUserImg)
 
 module.exports = router

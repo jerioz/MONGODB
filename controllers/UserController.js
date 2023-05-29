@@ -1,15 +1,16 @@
 const User = require('../models/User')
 const jwt = require('jsonwebtoken')
-const { jwt_secret } = require('../config/keys')
 const bcrypt = require('bcryptjs')
 const transporter = require('../config/nodemailer')
+
+require('dotenv').config()
 
 const UserController = {
     async newUser(req, res, next) {
         try {
           req.body['password'] = req.body?.password ? bcrypt.hashSync(req.body.password, 10)  : null
          const user = await User.create({...req.body, confirmed:false})
-         const emailToken = jwt.sign({email:req.body.email},jwt_secret,{expiresIn:'48h'})
+         const emailToken = jwt.sign({email:req.body.email},process.env.JWT_SECRET,{expiresIn:'48h'})
          const url = 'http://localhost:3000/users/confirm/'+ emailToken
          transporter.sendMail({
             to: req.body.email,
@@ -41,7 +42,7 @@ const UserController = {
         if(!isMatch) {
           return res.status(400).send({message: 'email or password incorrect'})
         }
-        const token = jwt.sign({_id: user._id, password: user.password}, jwt_secret) 
+        const token = jwt.sign({_id: user._id, password: user.password}, process.env.JWT_SECRET) 
         if(user.tokens.legth > 4) user.tokens.shift()
         user.tokens.push(token)
         await user.save()
@@ -104,7 +105,7 @@ const UserController = {
   async confirm(req,res){
     try {
       const token = req.params.emailToken
-    const payload = jwt.verify(token, jwt_secret)
+    const payload = jwt.verify(token, process.env.JWT_SECRET)
       await User.findOne({email: payload.email}, {confirmed:true})
       res.status(201).send( "user confirmed successfully" );
     } catch (error) {

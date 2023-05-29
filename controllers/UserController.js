@@ -77,7 +77,17 @@ const UserController = {
       } catch (error) {
        console.error(error) 
       }
-    }
+    },
+    async updateUserImg(req, res) {
+      try {
+        const user = await User.findByIdAndUpdate(req.params._id, {image: req.file.filename} ,{new: true})
+        res.send({message: 'user succesfully updated', user}) 
+      } catch (error) {
+        console.error(error)
+        res.send({message: 'There is a problem'}, error)  
+      }
+  },
+    
 }
 
 module.exports = UserController

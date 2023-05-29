@@ -12,6 +12,7 @@ const CommentSchema =  new mongoose.Schema({
         ref: 'User'
     },
     likes: [{type: ObjectId}],
+    image:String
 }, {timestamps: true})
 
 const Comment = mongoose.model('Comment', CommentSchema)

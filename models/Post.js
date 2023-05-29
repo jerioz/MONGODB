@@ -14,7 +14,8 @@ const PostSchema = new mongoose.Schema({
             userId: { type: ObjectId, ref: 'User' },
         }
     ],
-    likes: [{ type: ObjectId }]
+    likes: [{ type: ObjectId }],
+    image: String
 
 }, { timestamps: true })
 

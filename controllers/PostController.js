@@ -93,6 +93,15 @@ const PostController =  {
            res.status(500).send({message: 'There is a problem with your delete like'})
         }
     },
+    async updatePostImg(req, res) {
+        try {
+          const post = await Post.findByIdAndUpdate(req.params._id, {image: req.file.filename} ,{new: true})
+          res.send({message: 'post succesfully updated', post}) 
+        } catch (error) {
+          console.error(error)
+          res.send({message: 'There is a problem'}, error)  
+        }
+    },
     // async updateCommentPost(req, res) {
     //     try {
     //         const post = await Post.updateOne({"comments._id":req.params._id},

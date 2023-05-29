@@ -21,7 +21,9 @@ const UserSchema = new mongoose.Schema({
         type: Number,
         required: [true, 'age is required']
     },
+    image: String,
     tokens: [],
+  
     
 }, { timestamps: true });
 
